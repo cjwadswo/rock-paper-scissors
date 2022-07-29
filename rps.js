@@ -1,13 +1,16 @@
-
 const roundResults = document.querySelector('.results');
 const playerScore = document.querySelector('.playerScore');
 const computerScore = document.querySelector('.computerScore');
+const playButtons = document.querySelector('.playButtons')
 const rockBtn = document.querySelector('.rock');
 const paperBtn = document.querySelector('.paper');
 const scissorsBtn = document.querySelector('.scissors');
+const endResults = document.querySelector('.endResults');
 let playerChoice = 0;
 let playerRoundsWon = 0;
 let computerRoundsWon = 0;
+
+
 rockBtn.addEventListener('click', () => play(1));
 paperBtn.addEventListener('click', () => play(2));
 scissorsBtn.addEventListener('click', () => play(3));
@@ -76,27 +79,44 @@ function computerWinner(playerChoice, computerChoice){
 }
 
 function play(playersChoice){
-    //Best of 7
-    console.log("Play has been called");
-    let winner;
-    winner = computerWinner(playersChoice, getComputerChoice());
-    console.log(winner);
-    if ( winner == 1 ) {
-        playerRoundsWon++;
-        playerScore.textContent = playerRoundsWon; 
-        roundResults.textContent = 'The Player Won!';
-    }
-    else if (winner == -1) {
-        computerRoundsWon++;
-        computerScore.textContent = computerRoundsWon;
-        roundResults.textContent = 'The Computer Won!';
+    if(playerRoundsWon == 4 || computerRoundsWon == 4){
+        hidePlayButtons();
+        if(playerRoundsWon == 4){
+            //Display player won
+            endResults.textContent = "Congrats! You won!"
+        }
+        else
+        {
+            //display computer won
+            endResults.textContent = "You Lost! :("
+        }
     }
     else {
-        //tie
-        roundResults.textContent = 'Tie!';
+        let winner;
+        winner = computerWinner(playersChoice, getComputerChoice());
+        console.log(winner);
+        if ( winner == 1 ) {
+            playerRoundsWon++;
+            playerScore.textContent = playerRoundsWon; 
+            roundResults.textContent = 'The Player Won!';
+        }
+        else if (winner == -1) {
+            computerRoundsWon++;
+            computerScore.textContent = computerRoundsWon;
+            roundResults.textContent = 'The Computer Won!';
+        }
+        else {
+            //tie
+            roundResults.textContent = 'Tie!';
+        }
+        console.log("Player: "+ playerRoundsWon + " Computer: " +computerRoundsWon);
     }
-    console.log("Player: "+ playerRoundsWon + " Computer: " +computerRoundsWon);
+    
 }
 
+function hidePlayButtons(){
+    console.log("HIDE!");
+    playButtons.style.display = "none";
+}
 
 
